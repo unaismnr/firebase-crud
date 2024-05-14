@@ -36,4 +36,7 @@ class FirestoreServices {
   }
 
   //Delete: Delete notes given a doc id
+  Future<void> deleteNote(String docId) {
+    return notes.doc(docId).delete();
+  }
 }

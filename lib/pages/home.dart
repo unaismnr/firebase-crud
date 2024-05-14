@@ -1,6 +1,7 @@
 import 'package:firebase_crud/pages/add_edit_note.dart';
 import 'package:firebase_crud/services/firestore_services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -43,24 +44,38 @@ class HomePage extends StatelessWidget {
                         color: Colors.grey[200],
                       ),
                       child: ListTile(
-                        title: Text(data['title'].toString()),
-                        subtitle: Text(data['note'].toString()),
-                        trailing: IconButton(
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => AddEditNote(
-                                  docId: data.id,
-                                  title: data['title'],
-                                  note: data['note'],
-                                ),
+                        title: Row(
+                          children: [
+                            Expanded(
+                              child: Text(data['title'].toString()),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => AddEditNote(
+                                      docId: data.id,
+                                      title: data['title'],
+                                      note: data['note'],
+                                    ),
+                                  ),
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.edit,
                               ),
-                            );
-                          },
-                          icon: const Icon(
-                            Icons.edit,
-                          ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                noteService.deleteNote(data.id);
+                              },
+                              icon: const Icon(
+                                Icons.delete_outline,
+                              ),
+                            ),
+                          ],
                         ),
+                        subtitle: Text(data['note'].toString()),
                       ),
                     );
                   },
